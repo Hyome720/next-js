@@ -3,27 +3,24 @@ import Head from 'next/head'
 import React from 'react'
 import homeStyles from '../../styles/home.module.css'
 import { getAllPostIds, getPostData } from '../../lib/posts'
+import {withRouter} from "next/router";
 
-export const Post = ({ postData }: {
-  postData: {
-    title: string,
-    date: string,
-    contentHtml: string
-  }
-}) => {
+const Post = (router: any) => {
+  console.log(router)
+
   return (
     <div>
       <Head>
-        <title>{postData.title}</title>
+        <title>{router.title}</title>
       </Head>
       <article>
         <h1 className={homeStyles.headingXl}>
-          {postData.title}
+          {router.title}
         </h1>
         <div>
-          {postData.date}
+          {router.date}
         </div>
-        <div dangerouslySetInnerHTML={{ __html: postData.contentHtml }} />
+        <div dangerouslySetInnerHTML={{ __html: router.contentHtml }} />
       </article>
     </div>
   )
@@ -31,7 +28,7 @@ export const Post = ({ postData }: {
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const paths = getAllPostIds()
-  
+
   // [{params: {id: 'pre-rendering} ... }]
   return {
     paths,
@@ -48,3 +45,5 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
       postData
   }
 }
+
+export default Post;
